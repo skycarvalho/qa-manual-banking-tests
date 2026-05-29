@@ -52,7 +52,7 @@ Além da validação de caixa-preta, foi documentada uma proposta técnica de me
 * Testes Exploratórios Baseados em Hipóteses
 * Análise do Valor Limite (Boundary Value Testing)
 * Particionamento de Equivalência (Equivalence Partitioning)
-* Testes Negativos e de Sanitização de Campos
+* Testes Negativos e Validação de Fluxos Excepcionais
 * Análise de Erros de Integração / API (Inspeção de HTTP Status)
 
 ---

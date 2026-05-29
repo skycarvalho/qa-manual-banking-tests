@@ -26,7 +26,7 @@ Foi aplicada a técnica de **Análise do Valor Limite (Boundary Value Testing)**
 
 ## 4. Ocorrências e Débitos Técnicos
 * **Comportamento do Sistema:** O motor de regras respondeu de forma consistente e estável em todas as fronteiras testadas.
-* **UX/Divergência de Negócio:** Identificada severa ambiguidade na resposta de erro (Mensagem genérica). Foi gerada a proposta de melhoria arquitetural no report `IMP001`.
+* **UX/Divergência de Negócio:** Identificada ambiguidade na resposta de erro (Mensagem genérica). Foi gerada a proposta de melhoria arquitetural no report `IMP001`.
 
 ---
 

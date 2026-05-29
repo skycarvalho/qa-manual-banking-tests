@@ -30,7 +30,7 @@
 ## CT002 — Validação de Fronteira Negativa: Entrada menor que 50% (Limite Inferior)
 * **Objetivo:** Garantir que o sistema bloqueie e apresente feedback adequado quando a entrada for um centavo abaixo do limite mínimo exigido (RN01).
 * **Pré-condições:** Usuário autenticado na plataforma, na tela de simulação.
-* **Massa de Dados:** Account Services = R$ 1.300,00 | Loan Amount = R$ 649,00
+* **Massa de Dados:** Loan Amount = R$ 1.300,00 | Down Payment = R$ 649,00
 
 ### Passo a Passo:
 1. No campo `Loan Amount`, inserir o montante de `1300,00`.
