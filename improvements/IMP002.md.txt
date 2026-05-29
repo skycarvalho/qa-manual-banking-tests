@@ -1,0 +1,40 @@
+# IMP002 — Ausência de validação client-side em campos monetários e submissão de requisições inconsistentes
+
+## 1. Cenário Observado
+
+Durante os testes exploratórios do módulo de empréstimos, foi identificado que os campos monetários permitem entradas inconsistentes sem validação imediata na interface.
+
+Também foi observado que o sistema não apresenta tratamento adequado para submissões com campos vazios, retornando erros genéricos de processamento em vez de mensagens orientativas ao usuário.
+
+---
+
+## 2. Impacto
+
+* Possível envio de dados inválidos ao backend
+* Experiência confusa para o usuário
+* Aumento de chamadas desnecessárias ao servidor
+* Feedback tardio durante o preenchimento do formulário
+* Maior risco de erros de processamento e inconsistência de dados
+
+---
+
+## 3. Recomendação
+
+Implementar validações client-side para:
+
+* Restringir caracteres inválidos
+* Impedir valores negativos
+* Validar campos obrigatórios antes do envio
+* Padronizar máscaras monetárias
+* Bloquear submissões vazias
+* Apresentar mensagens específicas de orientação ao usuário
+
+---
+
+## Traceability Matrix
+
+Este improvement foi derivado de comportamentos inconsistentes identificados durante testes exploratórios e funcionais do módulo de empréstimos.
+
+* **Related exploratory analysis:** `loan-approval-rule.md`
+* **Related requirement:** `RN01`
+* **Related environment context:** `BUG001`

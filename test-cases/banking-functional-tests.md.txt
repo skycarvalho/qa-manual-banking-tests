@@ -1,0 +1,86 @@
+# Especificação de Casos de Teste Funcionais — Módulo de Empréstimos
+
+**Mapeamento de Cobertura:** Requisitos de Elegibilidade e Análise de Crédito  
+**Abordagem:** Caixa-Preta (Testes Funcionais, Negativos, Fronteira, System Testing)  
+**Técnicas Aplicadas:** Particionamento de Equivalência e Análise do Valor Limite
+
+---
+
+## CT001 — Validação de Fronteira Positiva: Entrada exata de 50%
+* **Objetivo:** Garantir que o sistema aprove a proposta quando a entrada atingir matematicamente o limite mínimo exato de 50% do valor solicitado.
+* **Pré-condições:** Usuário autenticado na plataforma, com acesso à tela de simulação de empréstimo.
+* **Massa de Dados:** Valor Solicitado = R$ 1.300,00 | Valor de Entrada = R$ 650,00
+
+### Passo a Passo:
+1. Acessar a página de login do sistema.
+2. Inserir credenciais válidas (usuário/senha).
+3. Clicar em "Log In".
+4. Acessar o menu "Account Services" e selecionar "Request Loan".
+5. No campo `Loan Amount`, inserir o montante de `1300,00`.
+6. No campo `Down Payment`, inserir o montante de `650,00`.
+7. Certificar-se de selecionar a conta corrente correta em `From account`
+8. Clicar no botão "Apply Now".
+
+### Resultado Esperado:
+* O sistema deve processar a requisição com sucesso.
+* Deve ser exibida a mensagem em tela: *"Status aprovado. Parabéns, seu empréstimo foi aprovado."*
+
+---
+
+## CT002 — Validação de Fronteira Negativa: Entrada menor que 50% (Limite Inferior)
+* **Objetivo:** Garantir que o sistema bloqueie e apresente feedback adequado quando a entrada for um centavo abaixo do limite mínimo exigido (RN01).
+* **Pré-condições:** Usuário autenticado na plataforma, na tela de simulação.
+* **Massa de Dados:** Account Services = R$ 1.300,00 | Loan Amount = R$ 649,00
+
+### Passo a Passo:
+1. No campo `Loan Amount`, inserir o montante de `1300,00`.
+2. No campo `Down Payment`, inserir o montante de `649,00`.
+3. Certificar-se de selecionar a conta corrente correta em `From account`
+4. Clicar no botão "Apply Now".
+
+### Resultado Esperado:
+* O sistema deve recusar a operação por violação da regra de negócio.
+* Deve exibir a mensagem de recusa cadastrada: *"Empréstimo negado. Não podemos conceder um empréstimo nesse valor com a entrada solicitada."*
+
+---
+
+## CT003 — Teste Negativo: Entrada superior ou igual ao valor solicitado
+* **Objetivo:** Garantir a resiliência do sistema e o tratamento de erro em cenários onde a entrada anula a necessidade de empréstimo.
+* **Pré-condições:** Usuário na tela de simulação.
+* **Massa de Dados:** Cenário A (Loan Amount = R$ 1.000,00 | Down Payment = R$ 1.000,00) | Cenário B (Loan Amount = R$ 1.000,00 | Down Payment = R$ 1.000,01)
+
+### Passo a Passo:
+1. Preencher o campo `Loan Amount` com `1000,00`.
+2. Preencher o campo `Down Payment` com `1000,00` (Cenário A) ou `1000,01` (Cenário B).
+3. Observar o comportamento do campo e tentar acionar o botão "Apply Now".
+
+### Resultado Esperado:
+* O sistema deve exibir um alerta de validação imposto pela interface ou pelo motor de regras: *"Você não possui fundos suficientes para o pagamento inicial."*
+
+---
+
+## CT004 — Teste de Usabilidade Manual: Navegação via Teclado
+* **Objetivo:** Garantir a fluidez operacional do preenchimento da simulação sem a dependência obrigatória do uso do mouse.
+* **Pré-condições:** Usuário com foco inicial no topo da página de simulação.
+
+### Passo a Passo:
+1. Utilizar a tecla `TAB` para alternar entre os elementos interativos da tela.
+2. Verificar se o foco segue a ordem lógica: Campo Loan Amount -> Campo Down Payment -> Botão Apply Now.
+3. Estando com o foco posicionado sobre o botão "Apply Now", pressionar a tecla `Enter` ou `Space`.
+
+### Resultado Esperado:
+* O indicador visual de foco deve estar claramente visível em cada campo durante a navegação.
+* O acionamento via teclado (`Enter` / `Space`) deve disparar a validação do empréstimo exatamente da mesma forma que o clique físico do mouse.
+
+
+## Traceability Matrix
+
+Este conjunto de testes cobre a validação da regra de negócio RN01 e suas variações funcionais, negativas e de usabilidade.
+
+- **Requirement covered:** RN01 (Minimum down payment rule - 50%)
+- **Test coverage:**
+  - CT001 → validação positiva (boundary upper limit)
+  - CT002 → validação negativa (boundary lower limit)
+  - CT003 → comportamento inválido / regra de consistência
+  - CT004 → usabilidade e acessibilidade
+- **Related improvement:** IMP001 (UX clarity and error message transparency) | IMP002 (Input validation and submission handling)

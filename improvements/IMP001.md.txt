@@ -1,0 +1,53 @@
+# Critério de Melhoria (UX / Business Impact) — Banking System
+
+## IMP001 — Texto ambíguo no aviso de validação de empréstimos
+
+### 1. Cenário e Contexto
+Ao realizar uma proposta de crédito onde o valor de entrada viola a **RN01 (Entrada mínima de 50%)**, o sistema retorna um feedback genérico que induz o cliente ao erro.
+
+* **API Endpoint Impactado:** `POST /api/v1/loans/evaluate`
+* **Payload Atual de Retorno (400 Bad Request):**
+```json
+{
+  "status": "REJECTED",
+  "message": "Empréstimo negado. Não podemos conceder um empréstimo nesse valor com a entrada solicitada."
+}
+
+```
+
+## 2. Impacto no Negócio
+
+> **Risco Crítico:** A atual obscuridade na mensagem de retorno afeta diretamente os KPIs de conversão e a eficiência operacional do produto de crédito.
+
+* **Abandono de Funil:** O usuário assume erroneamente que a reprovação ocorreu devido ao seu *Score de Crédito* ou restrição cadastral/CPF. Como consequência, ele abandona a simulação em vez de simplesmente ajustar o valor da entrada para atingir o limite mínimo exigido.
+* **Custo de Suporte (SAC / Ouvidoria):** Geração de chamados e consultas desnecessárias na central de atendimento por clientes que tentam entender o motivo técnico da reprovação do empréstimo.
+* **Falta de Transparência (Compliance):** Desalinhamento com as boas práticas de clareza e transparência em operações de crédito e regulamentações bancárias vigentes.
+
+---
+
+## 3. Solução Proposta (To Be)
+
+A proposta consiste em alterar o contrato técnico da API e a respectiva renderização na camada de interface (UI) para expor a regra de negócio de forma explícita, promovendo uma ação corretiva imediata por parte do cliente (*Self-Service*).
+
+### Payload Proposto para a API
+* **Endpoint Impactado:** `POST /api/v1/loans/evaluate`
+* **HTTP Status Code Sugerido:** `400 Bad Request` (ou `200 OK` dependendo da arquitetura do motor de regras, com status mapeado no corpo)
+
+```json
+{
+  "status": "REJECTED",
+  "reason_code": "INSUFFICIENT_DOWN_PAYMENT",
+  "message": "Empréstimo negado. O valor de entrada deve corresponder a pelo menos 50% do valor total solicitado.",
+  "minimum_required_down_payment": 650.00
+}
+
+```
+
+## Traceability Matrix
+
+Este improvement é derivado diretamente de inconsistências observadas no comportamento de retorno da regra de negócio RN01 durante testes exploratórios e validações funcionais do módulo de empréstimos.
+
+- **Requirement impacted:** RN01 (Minimum down payment rule - 50%)
+- **Observed in test case:** CT002 (boundary failure scenario with generic rejection message)
+- **Originated from exploratory analysis:** loan-approval-rule.md
+- **Related bug context:** BUG001 (environment instability limited full execution but UX issue identified independently)
