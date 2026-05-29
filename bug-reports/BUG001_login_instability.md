@@ -5,7 +5,7 @@
 ### 1. Cenário e Contexto
 Durante a execução e coleta de evidências do módulo de empréstimos, o sistema apresentou uma falha crítica no fluxo de acesso, gerando o travamento completo do ciclo de testes (*Blocker*).
 
-* **URL de Solicitação:** https://parabank.parasoft.com/parabank/login.htm
+* **URL de Solicitação:** https://parabank.parasoft.com/parabank/index.htm
 * **Método HTTP:** POST
 * **Código de Status Retornado:** 500 Internal Server Error
 
